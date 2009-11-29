@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery mcalc | Test bench</title>
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/styles.css" rel="stylesheet" />	
+		<link type="text/css" href="css/ui.mcalc.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>
+		<script type="text/javascript" src="js/jquery.utils.lite.js"></script>
+        <script type="text/javascript" src="js/jquery.jqprint.js"></script>
+        <!-- UNCOMMENT THE LINE BELOW TO LOAD FRENCH TRANSLATION -->
+		<!-- script type="text/javascript" src="js/i18n/mcalc.fr.js"></script -->
+		<script type="text/javascript" src="js/jquery.mcalc.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.amortization.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.summary.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.about.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.charts.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.permalink.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.charteditor.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.logoExample.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.bench.js"></script>
+        <script type="text/javascript" src="farbtastic/farbtastic.js"></script>
+        <link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css" />
+	</head>
+	<body>
+		<h2 class="demoHeaders">Mortgage calculator</h2>
+        <div id="theme">
+            <h3>Plugins</h3>
+            <ul class="opt-select">
+                <li style="border-bottom:1px solid #eee;"><label><input id="opt-minimal" type="checkbox" /> Minimal</label></li>
+                <li><label class="disabled"><input id="opt-tab-calculator" type="checkbox"  disabled="disabled"/>Calculator</label></li>
+                <li><label><input id="opt-debug" type="checkbox" />Debug (firebug)</label></li>
+                <li><label><input id="opt-logoExample" type="checkbox" />Logo (example)</label></li>
+                <li><label><input id="opt-amortable" type="checkbox" checked="checked" />Amortization</label></li>
+                <li>
+                    <label><input id="opt-summary" type="checkbox" checked="checked" /> Summary</label>
+                    <ul class="opt-select">
+                        <li><label><input id="opt-summary-print" type="checkbox" checked="checked" /> Print button</label></li>
+                    </ul>
+                </li>
+                <li><label><input id="opt-about" type="checkbox" checked="checked" /> About</label></li>
+                <li>
+                    <label><input id="opt-charts" type="checkbox" checked="checked" /> Charts</label>
+                    <ul class="opt-select">
+                        <li><label><input id="opt-interestchart" type="checkbox" checked="checked" /> Interest</label></li>
+                        <li><label><input id="opt-amortchart" type="checkbox" checked="checked" /> Amortization</label></li>
+                        <li><label><input id="opt-interestchartSmartResize" type="checkbox" checked="checked" /> Smart resize<br><small>(Interest chart)</small></label></li>
+                    </ul>
+                </li>
+                <li>
+                    <label><input id="opt-permalink" type="checkbox" checked="checked" /> Permalink</label>
+                    <ul class="opt-select">
+                        <li><label><input id="opt-permalink-input" type="checkbox" checked="checked" /> Show input</label></li>
+                        <li><label><input id="opt-permalink-anchor" type="checkbox" checked="checked" /> Show URL anchor</label></li>
+                        <li><label><input id="opt-permalinkSmartResize" type="checkbox" checked="checked" /> Smart resize</label></li>
+                    </ul>
+                </li>
+                <li><label><input id="opt-charteditor" type="checkbox" checked="checked" /> Chart editor</label></li>
+            </ul>
+            <h3>Options</h3>
+            <ul class="opt-select">
+                <li><label><input id="opt-showFieldHelp" type="checkbox" checked="checked" /> Show field help</label></li>
+                <li>
+                    <label>width</label> <input id="opt-width" type="text" value="600" style="width:40px;" /> <small>px</small>
+                </li>
+            </ul>
+            <h3>Effects</h3>
+            <ul class="opt-select">
+                <li>
+                    <label>Field updated effect</label><br> 
+                    <select id="opt-fieldUpdatedEffect"><option value="highlight" selected>Highlight</option><option value="bounce">Bounce</option><option value="shake">Shake</option><option value="pulsate">Pulsate</option></select>
+                </li>
+            </ul>
+            <h3>Currency <a href="http://code.google.com/p/jquery-utils/wiki/StringFormat#format">format</a></h3>
+            <ul class="opt-select">
+                <li>
+                    <input id="opt-currencyFormat" type="text" value="${0:0.2f}" style="width:65px;" />
+                    <small>
+                        (<a href="#" id="currencyFormat-float">float</a>|<a href="#" id="currencyFormat-decimal">decimal</a>)
+                    </small>
+                </li>
+            </ul>
+            <hr size="1" style="color:#ccc;margin:10px 0 15px 0;">
+            <p><a id="opt-reload" class="ui-state-default ui-corner-all ui-button"><span class="ui-icon ui-icon-arrowrefresh-1-e">&nbsp;</span> Reload widget</a></p>
+        </div>
+        <div class="toc">
+            <h3>Mcalc</h3>
+            <ul class="opt-select">
+                <li><a href="index.html">Index</a></li>
+                <li><a href="test-bench.html">Bench</a></li>
+                <li><a href="documentation.html">Documentation</a></li>
+            </ul>
+            <h3>Download</h3>
+            <ul class="opt-select">
+                <li><a href="downloads/jquery.mcalc-0.1.0.zip">jquery.mcalc-0.1.0.zip</a></li>
+                <li><a href="downloads/jquery.mcalc-0.1.0.tar.gz">jquery.mcalc-0.1.0.tar.gz</a></li>
+            </ul>
+            <h3>Links</h3>
+            <ul class="opt-select">
+                <li><a href="http://haineault.com">Author's website</a></li>
+                <li><a href="http://jquery.com">jQuery</a></li>
+                <li><a href="http://jqueryui.com/">jQuery UI</a></li>
+                <li><a href="http://jqueryui.com/themeroller/">jQuery Themeroller</a></li>
+            </ul>
+            <h3>Theme</h3>
+            <div id="switcher"></div>
+            <br>
+        </div>
+        <div id="mcalc"></div>
+        <script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
+		<script type="text/javascript">
+			$(function(){
+                $('#switcher').themeswitcher();
+                $('#currencyFormat-float').click(function(){
+                    $('#opt-currencyFormat').val('${0:0.2f}');
+                });
+                $('#currencyFormat-decimal').click(function(){
+                    $('#opt-currencyFormat').val('${0:d}');
+                });
+            });
+        </script>
+	</body>
+</html>

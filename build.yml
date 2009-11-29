@@ -1,0 +1,49 @@
+title: jquery.mcalc
+version: 0.1.0
+svnrev: false 
+name: "mcalcall"
+dest: dist/
+modules:
+  - file: js/jquery.mcalc.js
+    name: "mcalc"
+    depends:
+      - src: js/jquery.jqprint.js
+      - src: js/jquery.mcalc.amortization.js
+      - src: js/jquery.mcalc.summary.js
+      - src: js/jquery.mcalc.about.js
+      - src: js/jquery.mcalc.charts.js
+      - src: js/jquery.mcalc.logoExample.js
+      - src: js/jquery.mcalc.permalink.js
+ 
+  - file: js/jquery.mcalc.js
+    name: "mcalclite"
+    title: jquery.mcalc.lite
+    destfile: jquery.mcalc.lite.js
+    depends:
+     - src: js/jquery.mcalc.amortization.js
+     - src: js/jquery.mcalc.charts.js
+  
+  - file: js/jquery.utils.lite.js
+    name: "jqueryutilslite"
+    title: jquery.utils.lite
+    destfile: jquery.utils.lite.js
+  
+copy:
+  - dest: dist/
+    src: css/ui.mcalc.css
+  - dest: dist/
+    src: js/jquery-1.3.2.min.js
+  - dest: dist/
+    src: js/jquery-ui-1.7.2.custom.min.js
+  - dest: dist/
+    src: js/jquery.utils.lite.js
+
+zip:
+  - dest: downloads/jquery.mcalc-%v.zip
+    src: ./
+    exclude: [".svn", "downloads"]
+
+gzip:
+  - dest: downloads/jquery.mcalc-%v.tar.gz
+    src: ./
+    exclude: [".svn", "downloads"]
