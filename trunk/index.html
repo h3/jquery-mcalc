@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery mcalc | Mortgage calculator</title>
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/styles.css" rel="stylesheet" />	
+        <link type="text/css" href="css/ui.mcalc.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+		<script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"></script>
+		<script type="text/javascript" src="js/jquery.utils.lite.js"></script>
+        <script type="text/javascript" src="dist/jquery.mcalc.min.js"></script>
+        
+        <!-- Order matters, you can also use it to move tabs order. -->
+        <!--
+		<script type="text/javascript" src="js/jquery.jqprint.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.amortization.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.summary.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.about.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.charts.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.logoExample.js"></script>
+		<script type="text/javascript" src="js/jquery.mcalc.permalink.js"></script>
+        -->
+		<script type="text/javascript">
+			$(function(){
+              $('#mcalc').mcalc();
+			});
+		</script>
+	</head>
+	<body>
+		<h1 class="demoHeaders">Mortgage calculator</h1>
+        <div class="toc">
+            <h3>Mcalc</h3>
+            <ul class="opt-select">
+                <li><a href="index.html">Index</a></li>
+                <li><a href="test-bench.html">Bench</a></li>
+                <li><a href="documentation.html">Documentation</a></li>
+            </ul>
+            <h3>Download</h3>
+            <ul class="opt-select">
+                <li><a href="downloads/jquery.mcalc-0.1.0.zip">jquery.mcalc-0.1.0.zip</a></li>
+                <li><a href="downloads/jquery.mcalc-0.1.0.tar.gz">jquery.mcalc-0.1.0.tar.gz</a></li>
+            </ul>
+            <h3>Links</h3>
+            <ul class="opt-select">
+                <li><a href="http://haineault.com">Author's website</a></li>
+                <li><a href="http://jquery.com">jQuery</a></li>
+                <li><a href="http://jqueryui.com/">jQuery UI</a></li>
+                <li><a href="http://jqueryui.com/themeroller/">jQuery Themeroller</a></li>
+            </ul>
+            <h3>Theme</h3>
+            <div id="switcher"></div>
+            <br>
+        </div>
+        <div id="mcalc"></div>
+		
+		<h2 class="demoHeaders">Features overview</h2>
+        <ul style="font-size:150%;">
+            <li>Live calculator</li>
+            <li>Down payment with configurable P.M.I.</li>
+            <li>Yearly/Monthly schedule</li>
+            <li>Print support</li>
+            <li>Plugin architecture</li>
+            <li>Permalink using URL anchor</li>
+            <li>Configurable input restrictions</li>
+            <li>Contextual help messages</li>
+            <li>Support for multiple language (currently translated in French)</li>
+            <li>Theme-able with theme editor/switcher</li>
+            <li>Extensible input restrictions</li>
+            <li>"Widget" mode (minimal version) is achievable by simply using available options</li>
+            <li>HTML 4.01 Transitional compliant</li>
+            <li>Python based build system which can copy/merge/minify/package code (<a href="http://code.google.com/p/jquery-utils/wiki/BuildSystem">documentation</a>)</li>
+            <li><a href="documentation.html">Documented</a> !</li>
+        </ul>
+		<h2 class="demoHeaders">Plugins</h2>
+        <ul class="big">
+            <li><a href="js/jquery.mcalc.js">jquery.mcalc.js</a>: Plugin's core</li>
+            <li><a href="js/jquery.mcalc.charts.js">jquery.mcalc.charts.js</a>: Add beautiful and fully customizable charts by Google Charts</li>
+            <li><a href="js/jquery.mcalc.amortization.js">jquery.mcalc.amortization.js</a>: Add a tab with yearly or monthly amortization table</li>
+            <li><a href="js/jquery.mcalc.summary.js">jquery.mcalc.summary.js</a>: Printer friendly mortgage summary with print button</li>
+            <li><a href="js/jquery.mcalc.permalink.js">jquery.mcalc.permalink.js</a>: Provide unique URL to allow easy sharing</li>
+            <li><a href="js/jquery.mcalc.about.js">jquery.mcalc.about.js</a>: About this plugin tab</li>
+            <li><a href="js/jquery.mcalc.chartseditor.js">jquery.mcalc.chartseditor.js</a>: This extension provide a simple demo GUI to manipulate the charts' colors.</li>
+            <li><a href="js/jquery.mcalc.logoExample.js">jquery.mcalc.bench.js</a>: Try the widget's options live <small>(Mozilla Firefox only)</small></li>
+            <li><a href="js/jquery.mcalc.logoExample.js">jquery.mcalc.logoExample.js</a>: A simple plugin example which insert a custom logo.</li>
+        </ul>
+		<h2 class="demoHeaders">Dependencies</h2>
+        <ul class="big">
+            <li><a href="http://jquery.com">jquery.js</a> 1.3+</li>
+            <li><a href="http://jqueryui.com/">jquery.ui.js</a> 1.7+</li>
+            <li><a href="http://code.google.com/p/jquery-utils/">jquery.utils.js</a> trunk</li>
+            <li><a href="http://plugins.jquery.com/project/jqPrint">jqprint.js</a> 0.3+ (only for the summary plugin)</li>
+            <li><a href="http://acko.net/dev/farbtastic">farbtastic.js</a> latest (only required for chartseditor)</li>
+        </ul>
+
+		<h2 class="demoHeaders">Plugin Highlights</h2>
+        <p>
+            What make this plugin stand apart ?
+        </p>
+        <h3>Clean and flexible event driven architecture</h3>
+        <p>
+            This plugin was built with an event driven architecture which allow to easily encapsulate
+            components. Most components are not aware of other components, they only react to events.
+        </p>
+        <p>
+            This approach makes is easy to extend/modify/debug the plugin while touching only targeted components.
+            For example, the permalink and chart functionalities are perfectly encapsulated, the only step necessary to 
+            disable these features is to not include <i>jquery.mcalc.permalink.js</i> and  <i>jquery.mcalc.charts.js</i>.
+        </p>
+        <h3>Easily themable with jQuery Themeroller</h3>
+        <a href="http://jqueryui.com/themeroller/"><img height="60" width="202" border="0" alt="" src="http://docs.jquery.com/images/0/09/Themeroller_ready_white_200px.png"/></a>
+        <p>
+            This little jewel make it possible to easily create custom themes for this plugin.
+        </p>
+        <h3>Uses Free Open Source technologies</h3>
+        <p>
+            The only closed source software used to create this plugin was Goolge Chart. Google provide
+            an open API for their chart but does not Open Source the software they use to generate the charts. 
+            I've chose this method because it was free, easy to use, customize and integrate and most of all, 
+            it's pluggable. 
+        </p>
+        <p>
+            Everything else, from the top to the bottom of the software stack, is Open Sources;
+        </p>
+        <ul>
+            <li><b>Ubuntu</b>: Developed on Ubuntu, because it's my favorite OS</li>
+            <li><b>Vim</b>: Coded with Vim because it's my favorite editor</li>
+            <li><b>Firefox</b>: My favorite web browser (for web dev)</li>
+            <li><b>Firebug</b>: Because it's what makes Firefox the best browser for web dev</li>
+            <li><b>jQuery</b>: A popular JavaScript library</li>
+            <li><b>jQuery UI</b>: An extension of jQuery which provide more advanced UI features</li>
+            <li><b>jQuery UI Themeroller</b>: A "theme engine" for jQuery UI</li>
+            <li><b>jQuery Utils</b>: A library I developped on top of jQuery for more advanced stuff (PEP3 String formatting, templating and such..)</li>
+            <li><b>jQuery jqprint</b>: A library to print HTML nodes</li>
+            <li><b>Farbtastic Color Picker</b>: Farbtastic is a jQuery plug-in that can add one or more color picker widgets into a page through JavaScript.</li>
+        </ul>
+        <h3>No server-side script needed</h3>
+        <p>
+            Everything is calculated with JavaScript, there is no server-side script needed so no AJAX calls are required.
+            I was thorn by whether or not use solely JavaScript to compute monthly payments and amortization table.
+            My work colleague thought it was not a good idea, but I decided to try it and to my great surprise it turns out that it's not so bad.
+        </p>
+        <p>
+            For the monthly payments the numbers are exact down to the cent. But when iterating over 30 years we gradually loose some precision.
+            I've took extra care to use the maximum precision available and round only when displaying the number. From what I saw there can be
+            at most one (1) dollar difference in the final payment and most of the time it's a couple of cents.
+        </p>
+        <p>
+            That said, I've came to the conclusion that using a server side script with AJAX requests to avoid such small differences would be an overkill.
+            I also don't think that a 50¢ difference can be a deal breaker for a 400 000$ house.
+        </p>
+        <p>
+            Furthermore I suggest using '{0:d}' for the currencyFormat option. It will strip the decimal, which are not really necessary and make those differences less apparent.
+        </p>
+        <h3>Pluggable calculation algorithms</h3>
+        <p>
+            Calculation algorithms can be provided as option to allow customization. This can be useful if you intend to use this plugin in other
+            countries, like Canada where we use different calculations.
+        </p>
+        <h3>Accessible</h3>
+        <p>
+            Keyboard navigation work as expected, even for the tabs. 
+        </p>
+        <h3>Helpful</h3>
+        <p>
+            Fields can have a "help" message to give user information about the field. Offer clarity and comprehensiveness to your clients and visitors and they will be grateful.
+        </p>
+        <p>
+            The state of the plugin is sharable via URL. This mean the user can calculate his mortgage and send the <i>permalink</i> to other users.
+        </p>
+        <h3>Cross browser</h3>
+        <p>
+            The widget has been developed with a standardized approach. I basically made the whole plugin in Firefox and when I tested in IE it worked just fine (after removing a bunch ending comas in literal objects).
+            I managed to make it work out of the box without much work by using existing Open Source technologies that abstract cross-browser inconsistencies.
+        </p>
+        <p>
+            Here's a list of browser on which the plugin worked (not flawlessly, but basically worked) without any tweaks;
+        </p>
+        <table cellpadding="0" cellspacing="0" summary="" class="mcalc-options">
+            <thead>
+                <tr><th class="ui-state-default">OS</th><th class="ui-state-default">Browser</th><th class="ui-state-default">Version</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Windows</td><td>Microsoft Internet Explorer</td><td>6</td></tr>
+                <tr><td>Windows</td><td>Microsoft Internet Explorer</td><td>7</td></tr>
+                <tr><td>Windows</td><td>Apple Safari</td><td>4.0</td></tr>
+                <tr><td>Windows</td><td>Google Chrome</td><td>2.0</td></tr>
+                <tr><td>Windows</td><td>Mozilla Firefox</td><td>3.0</td></tr>
+                <tr><td>Linux</td><td>Google Chrome</td><td>3.0</td></tr>
+                <tr><td>Linux</td><td>Mozilla Firefox</td><td>3.0</td></tr>
+                <tr><td>Linux</td><td>Opera</td><td>9.64</td></tr>
+                <tr><td>Linux</td><td>Epiphany Web Browser</td><td>2.26</td></tr>
+                <tr><td>Linux</td><td>SeaMonkey</td><td>1.1.15</td></tr>
+                <tr><td>Linux</td><td>Galeon</td><td>2.0.6</td></tr>
+            </tbody>
+        </table>
+        <p>
+        At this point I must admit that IE6 performances could be much better, unfortunately I don't have enough time to optimize performances for IE6.
+        I'm confident however that it can be quite easily addressed.
+        </p>
+        <h2 class="demoHeaders">Project statistics</h2>
+        <p>
+        Those stats where compiled with <a href="http://cloc.sourceforge.net/" title="Count Lines of Code ">CLOC</a> 1.08, they include external libraries (jQuery, jQuery UI and such), documentation and demo files..
+        </p>
+<pre>
+-------------------------------------------------------------------------------
+Language          files     blank   comment      code    scale   3rd gen. equiv
+-------------------------------------------------------------------------------
+Javascript           42       826      1576      5981 x   1.48 =        8851.88
+HTML                  7        21        13       993 x   1.90 =        1886.70
+CSS                   5        63        74       791 x   1.00 =         791.00
+Python                2        68        72       348 x   4.20 =        1461.60
+YAML                  1         4         0        35 x   0.90 =          31.50
+-------------------------------------------------------------------------------
+SUM:                 57       982      1735      8148 x   1.60 =       13022.68
+-------------------------------------------------------------------------------
+
+</pre>
+        <h2 class="demoHeaders">Future of this project</h2>
+        <p>
+            Obviously my main interest in entering this contest is the money prize and in compliance with the term and conditions of that said contest, this plugin will be all yours if I happen to win.
+        </p>
+        <p>
+            That said, I would like to voice my opinion about the future of this plugin in the eventuality of a win; I strongly recommend you to Open Source it.
+        </p>
+        <p>
+            I've been Open Sourcing most of my projects in the last years and I can affirm you that it's the way to go for such project. Consider the followings;
+        </p>
+        <ol>
+            <li>Making it proprietary will not prevent anyone from reverse-engineering the code and it's not realistic to think that if it happens, you'll eventually find out and take legal actions. If you manage to do it, it's by sheer luck and such actions will suck out a lot of money, time and energy.</li>
+            <li>By being proprietary, it might manage to be the "Sexiest" mortgage calculator around for a while, but it will not be the best. Open Sourcing it<br> will make it the best while requiring less work to improve since people <i>will</i> contribute to it. I personally maintain a <a href="http://www.ohloh.net/p/jquery-utils/analyses/latest">quite large Open Source JavaScript project</a> alone, there's no way I could ever find and fix all the bugs without any outside help. I can assert that if I would have kept this project closed source, it would never have reached this size nor this quality.</li>
+            <li>Another factor to take into account is the browser variety. Tracking business logic bugs is something finite and manageable by a single developer. However tracking and fixing <i>cross-browser</i> bugs across a wide variety of browsers is whole other story.</li>
+            <li>Open Sourcing this project could be a nice publicity stunt and a nice way to give back to the Open Source community. After all, this plugin have been built solely with Open Source technologies Licensed under <a href="http://en.wikipedia.org/wiki/MIT_License">MIT license</a> (or dual MIT/GPL).</li>
+            <li>There is plenty of advantages to sponsor Open Source projects, <a href="http://assembly.state.ny.us/leg/?bn=A06380&amp;sh=t">just dig around a little</a>.</li>
+        </ol>
+        <h2 class="demoHeaders">Final note</h2>
+        <p>
+            I wish you good luck in your quest of the best mortgage calculator, I hope mine is a good contender.
+        </p>
+        <p>
+            Best Regards,<br>
+            <a href="mailto:haineault@gmail.com">Maxime Haineault</a>
+        </p>
+        <script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
+		<script type="text/javascript">
+			$(function(){
+                $('#switcher').themeswitcher();
+                $('.mcalc-options tbody tr')
+                    .filter(':odd').addClass('odd').end()
+                    .filter(':even').addClass('even');
+            });
+        </script>
+	</body>
+</html>

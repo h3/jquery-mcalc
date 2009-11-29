@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>jQuery mcalc | Documentation</title>
+		<link type="text/css" href="css/ui-lightness/jquery-ui-1.7.2.custom.css" rel="stylesheet" />	
+		<link type="text/css" href="css/styles.css" rel="stylesheet" />	
+		<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+		<link type="text/css" href="dp.SyntaxHighlighter/Styles/SyntaxHighlighter.css" rel="stylesheet" />	
+	</head>
+	<body>
+		<h1>Mortgage calculator documentation</h1>
+        <div class="toc">
+            <h3>Mcalc</h3>
+            <ul class="opt-select">
+                <li><a href="index.html">Index</a></li>
+                <li><a href="test-bench.html">Bench</a></li>
+                <li><a href="documentation.html">Documentation</a></li>
+            </ul>
+            <h3>Download</h3>
+            <ul class="opt-select">
+                <li><a href="downloads/jquery.mcalc-0.1.0.zip">jquery.mcalc-0.1.0.zip</a></li>
+                <li><a href="downloads/jquery.mcalc-0.1.0.tar.gz">jquery.mcalc-0.1.0.tar.gz</a></li>
+            </ul>
+            <h3>Links</h3>
+            <ul class="opt-select">
+                <li><a href="http://haineault.com">Author's website</a></li>
+                <li><a href="http://jquery.com">jQuery</a></li>
+                <li><a href="http://jqueryui.com/">jQuery UI</a></li>
+                <li><a href="http://jqueryui.com/themeroller/">jQuery Themeroller</a></li>
+            </ul>
+            <h3>Documentation</h3>
+            <ol>
+                <li>
+                    <a href="#templates">Templates</a>
+                    <ol>
+                        <li><a href="#templates-available">Available templates</a></li>
+                    </ol>
+                </li>
+                <li><a href="#core-options">Core options</a></li>
+                <li><a href="#chart-options">Chart options</a></li>
+                <li><a href="#permalink-options">Permalink options</a></li>
+                <li><a href="#summary-options">Summary options</a></li>
+                <li>
+                    <a href="#components">Components</a>
+                    <ol>
+                        <li><a href="#components-bare">Bare bone component</a></li>
+                        <li><a href="#components-ui">Integrating component to UI</a></li>
+                        <li><a href="#components-help">Adding contextual help on focus</a></li>
+                        <li><a href="#components-initialisation">initialisation</a></li>
+                        <li><a href="#components-refresh">Component refresh</a></li>
+                        <li><a href="#components-trigger">Trigger events</a></li>
+                    </ol>
+                </li>
+                <li>
+                    <a href="#build-system">Build system</a>
+                    <ol>
+                        <li><a href="#build-ing">Building</a></li>
+                        <li><a href="#build-min">Build with minified</a></li>
+                        <li><a href="#build-module">Build specific modules</a></li>
+                        <li><a href="#build-initialisation">initialisation</a></li>
+                        <li><a href="#build-refresh">Component refresh</a></li>
+                        <li><a href="#build-trigger">Trigger events</a></li>
+                    </ol>
+                </li>
+                <li><a href="#bonus">Bonus</a></li>
+            </ol>
+        </div>
+        <p>
+        This widget have been built with extensibility and customisability in mind. Most of the widget aspects are customisable with options or over-loadable with templates. 
+        </p>
+		<h2 class="demoHeaders"><a name="templates">Templates</a></h2>
+        <p>A template system is used to generate and cache every UI fragments. This technique abstracts the HTML from the main code which allow HTML overloading.</p>
+        <p>
+        For example, the amortisation plugin use the following template to generate table rows;
+        </p>
+<pre name="code" class="js:nogutter">
+$.tpl('amortization.row', [
+    '&lt;tr&gt;',
+        '&lt;th&gt;{period:s}&lt;/th&gt;',
+        '&lt;td&gt;{interest:C}&lt;/td&gt;',
+        '&lt;td&gt;{principal:C}&lt;/td&gt;',
+        '&lt;td&gt;{balance:C}&lt;/td&gt;',
+    '&lt;/tr&gt;'
+]);
+</pre>
+        <p>
+        Now to override this template to change the first th for a td for example, we only have to re-declare the template before initialising the mcalc widget; 
+        </p>
+<pre name="code" class="js:nogutter">
+$.tpl('amortization.row', [
+    '&lt;tr&gt;',
+        '&lt;td&gt;{period:s}&lt;/td&gt;',
+        '&lt;td&gt;{interest:C}&lt;/td&gt;',
+        '&lt;td&gt;{principal:C}&lt;/td&gt;',
+        '&lt;td&gt;{balance:C}&lt;/td&gt;',
+    '&lt;/tr&gt;'
+]);
+</pre>
+		<h3 class="demoHeaders"><a name="templates-available">Available templates</a></h3>
+        <table cellpadding="0" cellspacing="0" summary="" class="mcalc-options">
+            <thead>
+                <tr><th class="ui-state-default">Namespace</th><th class="ui-state-default">HTML</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>summary.informations</td><td>
+<pre name="code" class="html:nogutter">
+&lt;h1&gt;Mortgage summary&lt;/h1&gt;
+&lt;dl class="ui-widget-content ui-summary"&gt;
+    &lt;dt&gt;Interest rate&lt;/dt&gt;
+    &lt;dd&gt;{interest:s}%&lt;/dd&gt;
+    &lt;dt&gt;Term&lt;/dt&gt;
+    &lt;dd&gt;{term:s}&lt;/dd&gt;
+    &lt;dt&gt;Principal&lt;/dt&gt;
+    &lt;dd&gt;{principal:s}$&lt;/dd&gt;
+    &lt;dt class="no-border"&gt;Property taxes&lt;/dt&gt;
+    &lt;dd class="no-border"&gt;{propretyTax:s}%&lt;/dd&gt;
+&lt;/dl&gt;
+</pre>
+                </td></tr>
+                <tr><td>summary.monthlyPayments</td><td>
+<pre name="code" class="html:nogutter">
+&lt;h2&gt;Monthly schedule&lt;/h2&gt;
+&lt;dl class="ui-widget-content ui-summary"&gt;
+    &lt;dt&gt;Mortgage&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{monthlyPeriods:s} x &lt;/small&gt;{monthlyPayment:s} = {monthlyTotal:s}&lt;/dd&gt;
+    &lt;dt&gt;Taxes&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{monthlyPeriods:s} x &lt;/small&gt;{monthlyPaymentTax:s} = {monthlyTotalTax:s}&lt;/dd&gt;
+    &lt;dt&gt;Insurance&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{monthlyPeriods:s} x &lt;/small&gt;{insurance:s} = {monthlyTotalInsurance:s}&lt;/dd&gt;
+    &lt;dt class="no-border"&gt;Total&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{monthlyPeriods:s} x &lt;/small&gt;{monthlyTotalPayment:s} = {monthlyGrandTotal:s}&lt;/dd&gt;
+&lt;/dl&gt;
+</pre>
+                </td></tr>
+                <tr><td>summary.yearlyPayments</td><td>
+<pre name="code" class="html:nogutter">
+&lt;h2&gt;Yearly schedule&lt;/h2&gt;
+&lt;dl class="ui-widget-content ui-summary"&gt;
+    &lt;dt&gt;Mortgage&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{yearlyPeriods:s} x &lt;/small&gt;{yearlyPayment:s} = {yearlyTotal:s}&lt;/dd&gt;
+    &lt;dt&gt;Taxes&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{yearlyPeriods:s} x &lt;/small&gt;{yearlyPaymentTax:s} = {yearlyTotalTax:s}&lt;/dd&gt;
+    &lt;dt&gt;Insurance&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{yearlyPeriods:s} x &lt;/small&gt;{insurance:s} = {yearlyTotalInsurance:s}&lt;/dd&gt;
+    &lt;dt class="no-border"&gt;Total&lt;/dt&gt;
+    &lt;dd&gt;&lt;small&gt;{yearlyPeriods:s} x &lt;/small&gt;{yearlyTotalPayment:s} = {yearlyGrandTotal:s}&lt;/dd&gt;
+&lt;/dl&gt;
+</pre>
+                </td></tr>
+                <tr><td>mcalc.print</td><td>
+<pre name="code" class="html:nogutter">
+&lt;a href="#" id="mcalc-print-summary" class="ui-button ui-state-default ui-corner-all"&gt;
+    &lt;span class="ui-icon ui-icon-print">&lt;/span&gt; 
+    Print summary
+&lt;/a&gt;
+</pre>
+                </td></tr>
+                <tr><td>mcalc.help</td><td>
+<pre name="code" class="html:nogutter">
+&lt;div class="ui-help ui-state-highlight ui-corner-all ui-helper-hidden"&gt;
+    &lt;span class="ui-icon ui-icon-info"/&gt;&lt;/span&gt;
+    &lt;p&gt;{message:s}&lt;/p&gt;
+&lt;/div&gt;
+</pre>
+                </td></tr>
+                <tr><td>amortization.row</td><td>
+<pre name="code" class="html:nogutter">
+&lt;tr&gt;
+    &lt;th&gt;{period:s}&lt;/th&gt;
+    &lt;td&gt;{interest:C}&lt;/td&gt;
+    &lt;td&gt;{principal:C}&lt;/td&gt;
+    &lt;td&gt;{balance:C}>&lt;/td&gt;
+&lt;/tr&gt;
+</pre>
+                </td></tr>
+            </tbody>
+        </table>
+		<h2 class="demoHeaders"><a name="core-options">Core options</a></h2>
+        <table cellpadding="0" cellspacing="0" summary="" class="mcalc-options">
+            <thead>
+                <tr><th class="ui-state-default">Option</th><th class="ui-state-default">Default</th><th class="ui-state-default">Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>debug</td><td>Boolean</td><td>Print debug information (requires firebug or Google Chrome)</td></tr>
+                <tr><td>form</td><td>Array</td><td>Used to manipulate order of the element composing the main form. Default order is; principal, interest, term, amortschedule, subtotal, insurance, ptaxes and total</td></tr>
+                <tr><td>principal</td><td>300000</td><td>Default principal</td></tr>
+                <tr><td>principalKeynav</td><td>Object</td><td>{type: 'integer', max_length: 7, max: 9999999}</td></tr>
+                <tr><td>interest</td><td>5.2</td><td>Default interest rate</td></tr>
+                <tr><td>interestKeynav</td><td>Object</td><td>{type: 'fixed', max_length: 5, max: 99, max_digits: 2}</td></tr>
+                <tr><td>term</td><td>30</td><td>Default term</td></tr>
+                <tr><td>termValues</td><td>Array</td><td>Allowed term values, default are; 5, 10, 15, 20, 25 and 30</td></tr>
+                <tr><td>ptaxes</td><td>1.5</td><td>Default yearly property taxes (percent)</td></tr>
+                <tr><td>ptaxesKeynav</td><td>Object</td><td>{type: 'fixed', max_length: 5, max: 99, max_digits: 2}</td></tr>
+                <tr><td>insurance</td><td>481</td><td>Default yearly insurance cost</td></tr>
+                <tr><td>insuranceKeynav</td><td>Object</td><td>{type: 'fixed', max_length: 5, max: 99, max_digits: 2}</td></tr>
+                <tr><td>calc</td><td>function</td><td>Default function used to calculate monthly payments</td></tr>
+                <tr><td>amortable</td><td>function</td><td>Default function used to calculate amortization table</td></tr>
+                <tr><td>currencyFormat</td><td>${0:0.2f}</td><td>Formatting string used to display currency values</td></tr>
+                <tr><td>showFieldHelp</td><td>true</td><td>Show field related help messages</td></tr>
+                <tr><td>fieldUpdatedEffect</td><td>highlight</td><td>Effect used when sub-total and total fields are updated</td></tr>
+                <tr><td>fieldUpdatedEffectDuration</td><td>1000</td><td>Effect duration</td></tr>
+                <tr><td>fieldUpdatedEffectOptions</td><td>{}</td><td>Effect options</td></tr>
+                <tr><td>width</td><td>600</td><td>Widget width</td></tr>
+            </tbody>
+        </table>
+		<h2 class="demoHeaders"><a name="chart-options">Chart options</a></h2>
+        <table cellpadding="0" cellspacing="0" summary="" class="mcalc-options">
+            <thead>
+                <tr><th class="ui-state-default">Option</th><th class="ui-state-default">Default</th><th class="ui-state-default">Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>interestchartSmartResize</td><td>true</td><td>If the chart's container is narrower than the chart itself, the chart will be resized to fit it's container.</td></tr>
+                <tr><td>interestChartType</td><td>['p3','p']</td><td>When the calculator's interest chart is clicked it can toggle between multiple chart styles. If a string is provided, the toggle feature will be disabled.</td></tr>
+                <tr><td>interestChart</td><td>Object</td><td>
+<pre name="code" class="js:nogutter">{
+    chs: '290x160',
+    cht: 'p3',
+    chco: 'F7AF3A,CC3300,1C94C4',
+    chma: '10,0,0,20|80,20',
+    chdl: $.format('{0:s}|{1:s}|{2:s}', 
+            _('Principal'), _('Interest'), _('Others')),
+    chf: 'bg,s,eeeeee',
+    chdlp: 'b'
+}</pre></td></tr>
+                <tr><td>amortChart</td><td>Object</td><td>
+<pre name="code" class="js:nogutter">{
+    chs: '270x160',
+    cht: 'lc',
+    chco: 'F7AF3A,CC3300,1C94C4',
+    chma: '10,0,0,20|80,20',
+    chdl: $.format('{0:s}|{1:s}', _('Principal'), _('Interest')),
+    chxt: 'x,y',
+    chg:  '20,50,1,5',
+    chf: 'bg,s,eeeeee',
+    chm: 'D,cc3300,0,0,2|D,1C94C4,1,0,2',
+    chdlp: 'b'
+}</pre></td></tr>
+                <tr><td>balanceChart</td><td>Object</td><td>
+<pre name="code" class="js:nogutter">{
+    cht:  'lc',
+    chls: '2.0,0.0,0.0',
+    chxt: 'x,y',
+    chdl: _('Balance'),
+    chs:  '288x160',
+    chg:  '20,50,1,5',
+    chf: 'bg,s,eeeeee',
+    chma: '10,0,0,20|80,20',
+    chdlp: 'b'
+}</pre></td></tr>
+            </tbody>
+        </table>
+		<h2 class="demoHeaders"><a name="permalink-options">Permalink options</a></h2>
+        <table cellpadding="0" cellspacing="0" summary="" class="mcalc-options">
+            <thead>
+                <tr><th class="ui-state-default">Option</th><th class="ui-state-default">Default</th><th class="ui-state-default">Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>permalinkInput</td><td>true</td><td>If true an input box will be used to show the permalink.</td></tr>
+                <tr><td>permalinkAnchor</td><td>true</td><td>If true the URL anchor will be updated live.</td></tr>
+                <tr><td>permalinkSmartResize</td><td>true</td><td>If the permalink's container is narrower than the input field, the field will be resized to fit it's container.</td></tr>
+            </tbody>
+        </table>
+		<h2 class="demoHeaders"><a name="summary-options">Summary options</a></h2>
+        <table cellpadding="0" cellspacing="0" summary="" class="mcalc-options">
+            <thead>
+                <tr><th class="ui-state-default">Option</th><th class="ui-state-default">Default</th><th class="ui-state-default">Description</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>summaryPrint</td><td>true</td><td>Add a print button to the summary tab.</td></tr>
+            </tbody>
+        </table>
+		<h2 class="demoHeaders"><a name="components">Components</a></h2>
+        <p>
+            You can see components as lego blocks, you build your own and stack them on the plugin's core.
+        </p>
+        
+        <h3><a name="components-bare">Bare bone component</a></h3>
+        <p>
+        Here's a strict minimal component example;
+        </p>           		
+
+<pre name="code" class="js:nogutter">
+$.ui.mcalc.component({
+    name: 'permalink',
+    tpl: '&lt;div class="ui-mcalc-permalink"&gt;&lt;label&gt;Permalink&lt;/label&gt;&lt;input type="text" value="" /&gt;&lt;/div&gt;'
+});
+</pre>
+		<h3><a name="components-ui">Integrating component to UI</a></h3>
+        <p>
+            Now we might want to actually insert the component in the interface. To do this we can use the ready event;
+        </p>
+<pre name="code" class="js:nogutter">
+$.ui.mcalc.component({
+    name: 'permalink',
+    tpl: '&lt;div class="ui-mcalc-permalink"&gt;&lt;label&gt;Permalink&lt;/label&gt;&lt;input type="text" value="" /&gt;&lt;/div&gt;',
+    events: [
+        {type: 'ready', callback: function(e, ui){
+            if (ui.options.permalinkInput) {
+                $(this).appendTo(ui._component('formpane'));
+            }
+        }}
+    ]
+});
+</pre>
+        <p>
+            As you can see, components can be invoked by their name with the method <i>ui._component( name )</i> and <i>this</i> refers to the rendered template.
+        </p>
+        <h3><a name="components-help">Adding contextual help on focus</a></h3>
+        <p>
+            It's always a good idea to give meaningful information to users, so why not add a help message that will be shown when the input will be focused;
+        </p>
+<pre name="code" class="js:nogutter">
+$.ui.mcalc.component({
+    name: 'permalink',
+    help: 'You can use this link to share your results with others or bookmark for later.',
+    tpl: '&lt;div class="ui-mcalc-permalink"&gt;&lt;label&gt;Permalink&lt;/label&gt;&lt;input type="text" value="" /&gt;&lt;/div&gt;',
+    events: [
+        {type: 'ready', callback: function(e, ui){
+            if (ui.options.permalinkInput) {
+                $(this).appendTo(ui._component('formpane'));
+            }
+        }}
+    ]
+});
+</pre>
+        <p>
+            Obviously this property works only on form elements (select, textarea, input).
+        </p>
+        <h3><a name="components-initialisation">Initialisation</a></li></h3>
+        <p>
+            We can modify the core widget before the <i>ready</i> event is called on plugins with the <i>init</i> property;
+        </p>
+<pre name="code" class="js:nogutter">
+$.ui.mcalc.component({
+    name: 'permalink',
+    help: 'You can use this link to share your results with others or bookmark for later.',
+    tpl: '&lt;div class="ui-mcalc-permalink"&gt;&lt;label&gt;Permalink&lt;/label&gt;&lt;input type="text" value="" /&gt;&lt;/div&gt;',
+    init: function(ui) {
+        var el = $(this).find('input');
+        // Add a method to the widget
+        ui._setPermalink = function() {
+            // Do something ..
+        };
+    },
+    events: [
+        {type: 'ready', callback: function(e, ui){
+            if (ui.options.permalinkInput) {
+                $(this).appendTo(ui._component('formpane'));
+            }
+        }}
+    ]
+});
+</pre>
+        <h3><a name="components-refresh">Component refresh</a></li></h3>
+        <p>
+            We can ensure our permalink is always up to date with the <i>refresh</i> event;
+        </p>
+<pre name="code" class="js:nogutter">
+$.ui.mcalc.component({
+    name: 'permalink',
+    help: 'You can use this link to share your results with others or bookmark for later.',
+    tpl: '&lt;div class="ui-mcalc-permalink"&gt;&lt;label&gt;Permalink&lt;/label&gt;&lt;input type="text" value="" /&gt;&lt;/div&gt;',
+    init: function(ui) {
+        var el = $(this).find('input');
+        // Add a method to the widget
+        ui._setPermalink = function() {
+            // Do something ..
+        };
+    },
+    events: [
+        {type: 'ready', callback: function(e, ui){
+            if (ui.options.permalinkInput) {
+                $(this).appendTo(ui._component('formpane'));
+            }
+        }},
+        {type: 'refresh', callback: function(e, ui){
+            ui._setPermalink();
+        }}
+    ]
+});
+</pre>
+        <h3><a name="components-trigger">Trigger events</a></li></h3>
+        <p>
+        It's useful to trigger events from within a component, to force other component to refresh for example;
+        </p>
+<pre name="code" class="js:nogutter">
+ui._trigger('refresh');
+</pre>
+        <p>
+        It's also possible to trigger an event on a specific component, like this;
+        </p>
+<pre name="code" class="js:nogutter">
+ui._trigger('refresh', 'interestchart');
+</pre>
+		<h2 class="demoHeaders"><a name="build-system">Build system</a></h2>
+        <p>
+        I included a Python build system I've made for <a href="http://code.google.com/p/jquery-utils/">jQuery Utils</a>, a library I maintain. The usage is quite straight forward, it uses
+        a YAML declaration file to specify the source and destination files. It has support for copy/merge/minify operation and recursion (multiple build files).
+        </p>
+        <p>
+        In order to use the build system you must have python and <a href="http://www.yaml.org/">YAML</a> installed. Python is already shipped with most Linux distribution.
+        </p>
+        <p>
+        Debian based distros can <i>sudo apt-get install python-yaml</i> to install YAML.
+        </p>
+        <p>
+        Here's some usage examples;
+        </p>
+		<h3 class="demoHeaders"><a name="build-ing">Building</a></h3>
+        <pre>$: ./build.py</pre>
+		<h3 class="demoHeaders"><a name="build-min">Build with minified</a></h3>
+        <pre>$: ./build.py -m</pre>
+		<h3 class="demoHeaders"><a name="build-module">Build specific modules</a></h3>
+        <pre>$: ./build.py -o mcalclite</pre>
+        <p>
+        This is what the output looks like;
+        </p>
+        <p><img src="img/build.png" alt="" border="0"></p>
+        <p>
+        The build system's complete documentation is available <a href="http://code.google.com/p/jquery-utils/wiki/BuildSystem">here</a>.
+        </p>
+        <h2><a name="bonus">Bonus</a></li></h2>
+        <p>
+            Just for having a nice reusable PNG logo with transparency on your website, I've created a sample component which adds the logo
+            on the calculator. The component is fully customizable and is a good example of how the widget can be extended unobstrusively.
+        </p>
+<pre name="code" class="js:nogutter">
+$.ui.mcalc.component({
+    name: 'logoExample',
+    lazy: true,
+    help: 'Get FHA Loan information [...] can offer the lowest rates.',
+    defaults: { 
+        logoExample:      true,
+        logoExampleUrl:   'http://www.mortgageloanplace.com/',
+        logoExampleSrc:   'img/mlp-logo.png',
+        logoExampleTitle: '',
+        logoExampleAlt:   'Mortgage Loan Place'
+    },
+    tpl: '<img />',
+    events: [
+        {type: 'ready', callback: function(e, ui){
+            var logo = $(this).attr({
+                alt: ui.options.logoExampleAlt,
+                src: ui.options.logoExampleSrc
+            });
+            if (ui.options.logoExampleUrl) {
+                logo.attr({
+                    longdesc: ui.options.logoExampleTitle,
+                    border: 0
+                });
+                logo = $('<a style="display:block;" />').append(logo).attr({
+                    title: ui.options.logoExampleTitle,
+                    href:  ui.options.logoExampleUrl,
+                });
+            }
+            logo.css({margin: '10px 20px 0 20px'});
+            ui._component('formpane').prepend(logo);
+        }}
+    ]
+});
+</pre>
+		<script type="text/javascript" src="dp.SyntaxHighlighter/Scripts/shCore.js"></script>
+		<script type="text/javascript" src="dp.SyntaxHighlighter/Scripts/shBrushJScript.js"></script>
+		<script type="text/javascript" src="dp.SyntaxHighlighter/Scripts/shBrushXml.js"></script>
+        <script type="text/javascript" src="http://jqueryui.com/themeroller/themeswitchertool/"></script>
+        <script type="text/javascript">
+        dp.SyntaxHighlighter.HighlightAll('code');
+        </script>
+	</body>
+</html>
+
